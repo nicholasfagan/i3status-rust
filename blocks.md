@@ -434,6 +434,8 @@ and many others.
 
 The block can be configured to drive a specific music player by name or automatically discover the currently active one.
 
+The block also supports mocp.
+
 ### Examples
 
 Show the currently playing song on Spotify only, with play & next buttons:
