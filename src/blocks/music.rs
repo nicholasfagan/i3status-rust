@@ -324,10 +324,13 @@ impl Block for Music {
                         if !Command::new("sh")
                             .args(&["-c", &format!("mocp {}", action)])
                             .status()
-                            .block_error("music", "could not do action")
+                            .block_error("music", "call to mocp failed")
                             .map(|s| s.success())? {
-                            return Err(BlockError("music".to_string(),"bad status when doing action".to_string()));
+                            return Err(BlockError("music".to_string(),"call to mocp failed".to_string()));
                         } else {
+                            // mocp will sometimes SIGABRT if queried and updated at the same time.
+                            // This avoids any clashes
+                            thread::sleep(Duration::from_millis(100));
                             self.update()?;
                         }
                     }
